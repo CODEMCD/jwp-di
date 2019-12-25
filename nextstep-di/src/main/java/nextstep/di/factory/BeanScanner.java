@@ -39,7 +39,7 @@ public class BeanScanner {
     }
 
     @SuppressWarnings("unchecked")
-    public static Set<Class<?>> scan(String basePackage) {
+    private static Set<Class<?>> scan(String basePackage) {
         Reflections reflections = new Reflections(basePackage);
         return getTypesAnnotatedWith(reflections, Controller.class, Service.class, Repository.class, Configuration.class);
     }
