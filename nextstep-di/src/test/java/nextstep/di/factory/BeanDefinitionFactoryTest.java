@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ class BeanDefinitionFactoryTest {
     @Test
     @DisplayName("Bean이 Configuration을 통해 생성되는 경우, 생성된 BeanDefinition의 configType은 해당 Configuration 클래스다.")
     void checkConfigType_ifBeanIsGeneratedByConfiguration() {
-        Set<Class<?>> preInstantiateClazz = Sets.newHashSet(Arrays.asList(ExampleConfig.class));
+        Set<Class<?>> preInstantiateClazz = Sets.newHashSet(Collections.singletonList(ExampleConfig.class));
         Map<Class<?>, BeanDefinition> beanDefinitions = createBeanDefinitions(preInstantiateClazz);
 
         BeanDefinition dataSourceBeanDefinition = beanDefinitions.get(DataSource.class);
@@ -40,7 +41,7 @@ class BeanDefinitionFactoryTest {
     @Test
     @DisplayName("Configuration에서 생성하는 bean이 아닌 경우, BeanDefinition의 configType은 null이다.")
     void createBeanDefinitio() {
-        Set<Class<?>> preInstantiateClazz = Sets.newHashSet(Arrays.asList(QnaController.class));
+        Set<Class<?>> preInstantiateClazz = Sets.newHashSet(Collections.singletonList(QnaController.class));
         Map<Class<?>, BeanDefinition> beanDefinitions = createBeanDefinitions(preInstantiateClazz);
 
         BeanDefinition qnaControllerBeanDefinition = beanDefinitions.get(QnaController.class);
@@ -48,7 +49,6 @@ class BeanDefinitionFactoryTest {
     }
 
     private Map<Class<?>, BeanDefinition> createBeanDefinitions(Set<Class<?>> preInstantiateClazz) {
-        BeanDefinitionFactory beanDefinitionFactory = new BeanDefinitionFactory(preInstantiateClazz);
-        return beanDefinitionFactory.createBeanDefinitions();
+        return BeanDefinitionFactory.createBeanDefinitions(preInstantiateClazz);
     }
 }
